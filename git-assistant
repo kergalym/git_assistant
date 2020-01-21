@@ -69,7 +69,7 @@ print("Welcome to GIT Assistant {0}\n".format(app_version))
 
 def push(repo, branch):
     try:
-        print("Pulling data from local repo {0} to remote repo {1} ...\n".format(Path.cwd(), repo))
+        print("Pushing data from local repo {0} to remote repo {1} ...\n".format(Path.cwd(), repo))
         git_cmd = "git push {}{}.git {}".format(git_account, repo, branch)
         runcmd(git_cmd)
     except KeyboardInterrupt:
