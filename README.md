@@ -6,7 +6,12 @@ A small Python script is assisting me in basic git operations.
 
 * Python 3.6 or higher
 * argparse
+* Credentials file `credentials` in a directory containing this script.
 
+  Credentials file example content: `https://user:'pass'@github.com/user/`.
+  
+  Credentials file permissions: `0644`.
+  
 **How to Use**
 
 `usage: git-assistant [-h] [-p PATH] [-r REPO] [-b BRANCH] [-t TASK]`
