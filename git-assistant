@@ -1,0 +1,158 @@
+#!/usr/bin/python3.6
+# -*- coding: utf-8 -*-
+
+import argparse
+from pathlib import Path
+from sys import argv
+from os import chdir
+from os import path
+from os.path import isdir, exists, isfile
+from os import system as runcmd
+
+""" GIT Assistant 0.2
+
+usage: git-assistant [-h] [-p PATH] [-r REPO] [-b BRANCH] [-t TASK]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  Path to the Git Project
+  -r REPO, --repo REPO  Git Repo Name
+  -b BRANCH, --branch BRANCH
+                        Branch Name
+  -t TASK, --task TASK  Task: push or pull
+
+
+credentials file content: https://user:'pass'@github.com/user/
+
+"""
+
+app_version = "0.2"
+
+file = '{}/credentials'.format(path.dirname(__file__))
+
+if exists(file) and isfile(file):
+    with open(file, 'r') as f:
+        git_account = f.read()
+
+        if git_account != "":
+            git_account = git_account.replace("\n", "")
+        else:
+            exit("Empty credentials: {0} \nExiting...".format(file))
+
+        if len(argv) == 1:
+            print(
+                """ GIT Assistant 0.2
+                 
+                 usage: git-assistant [-h] [-p PATH] [-r REPO] [-b BRANCH] [-t TASK]
+                 
+                 optional arguments:
+                   -h, --help            show this help message and exit
+                   -p PATH, --path PATH  Path to the Git Project
+                   -r REPO, --repo REPO  Git Repo Name
+                   -b BRANCH, --branch BRANCH
+                                         Branch Name
+                   -t TASK, --task TASK  Task: push or pull
+                 
+                 
+                 credentials file content: https://user:'pass'@github.com/user/
+                 
+                 """
+            )
+else:
+    print("GIT Assistant {0}\n".format(app_version))
+    print("No credentials file: {0}\n".format(file))
+    print("Credentials file should be in a directory containing this script. \nExiting...")
+    exit(1)
+
+print("Welcome to GIT Assistant {0}\n".format(app_version))
+
+
+def push(repo, branch):
+    try:
+        print("Pulling data from local repo {0} to remote repo {1} ...\n".format(Path.cwd(), repo))
+        git_cmd = "git push {}{}.git {}".format(git_account, repo, branch)
+        runcmd(git_cmd)
+    except KeyboardInterrupt:
+        print("\nInterrupted. Exiting...")
+        exit(1)
+
+
+def pull(repo, branch):
+    try:
+        print("Pulling data from remote repo {0} to local repo {1} ...\n".format(repo, Path.cwd()))
+        git_cmd = "git pull {}{}.git {}".format(git_account, repo, branch)
+        runcmd(git_cmd)
+    except KeyboardInterrupt:
+        print("\nInterrupted. Exiting...")
+        exit(1)
+
+
+def add():
+    try:
+        print("Adding file to commit...\n")
+        runcmd("git add .")
+    except KeyboardInterrupt:
+        print("\nInterrupted. Exiting...")
+        exit(1)
+
+
+def commit():
+    try:
+        text = str(input("Describe the commit: "))
+        if text == "":
+            print("\nEmpty commit. Exiting...")
+            exit(1)
+        runcmd("git commit -m '{}'".format(text))
+    except KeyboardInterrupt:
+        print("\nInterrupted. Exiting...")
+        exit(1)
+
+
+def construct_task(args):
+    repo = None
+    branch = None
+    path = None
+    task = None
+
+    if (args.repo
+            and args.branch
+            and args.path
+            and args.task):
+        repo = args.repo
+        branch = args.branch
+        path = args.path
+        task = args.task
+
+    if (repo and branch and path
+            and task
+            and isinstance(repo, str)
+            and isinstance(branch, str)
+            and isinstance(path, str)
+            and isinstance(task, str)
+            and isdir(path)):
+        chdir(path)
+
+        if task == 'push':
+            add()
+            commit()
+            push(repo, branch)
+        elif task == 'pull':
+            pull(repo, branch)
+
+
+def run():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--path", action="store",
+                        help="Path to the Git Project")
+    parser.add_argument("-r", "--repo", action="store",
+                        help="Git Repo Name")
+    parser.add_argument("-b", "--branch", action="store",
+                        help="Branch Name")
+    parser.add_argument("-t", "--task", action="store",
+                        help="Task: push or pull")
+    args = parser.parse_args()
+    construct_task(args)
+
+
+if __name__ == "__main__":
+    run()
