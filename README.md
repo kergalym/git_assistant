@@ -21,7 +21,7 @@ optional arguments:
   `-b BRANCH, --branch BRANCH Branch Name`
   
   `-t TASK, --task TASK  Task: push or pull`
-`
+
 
 Here is an example
 
