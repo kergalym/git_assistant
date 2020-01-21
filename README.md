@@ -8,19 +8,19 @@ Python 3.6 or higher
 
 **How to Use**
 
-`usage: git-assistant [-h] [-p PATH] [-r REPO] [-b BRANCH] [-t TASK]
+`usage: git-assistant [-h] [-p PATH] [-r REPO] [-b BRANCH] [-t TASK]`
 
 optional arguments:
 
-  -h, --help            show this help message and exit
+  `-h, --help            show this help message and exit`
   
-  -p PATH, --path PATH  Path to the Git Project
+  `-p PATH, --path PATH  Path to the Git Project`
   
-  -r REPO, --repo REPO  Git Repo Name
+  `-r REPO, --repo REPO  Git Repo Name`
   
-  -b BRANCH, --branch BRANCH Branch Name
+  `-b BRANCH, --branch BRANCH Branch Name`
   
-  -t TASK, --task TASK  Task: push or pull
+  `-t TASK, --task TASK  Task: push or pull`
 `
 
 Here is an example
