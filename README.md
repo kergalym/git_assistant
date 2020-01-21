@@ -1,4 +1,4 @@
-**GIT-ASSISIANT**
+**GIT-ASSISTANT**
 
 A small Python script is assisting me in basic git operations.
 
