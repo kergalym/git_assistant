@@ -4,7 +4,8 @@ A small Python script is assisting me in basic git operations.
 
 **Requirements**
 
-Python 3.6 or higher
+* Python 3.6 or higher
+* argparse
 
 **How to Use**
 
